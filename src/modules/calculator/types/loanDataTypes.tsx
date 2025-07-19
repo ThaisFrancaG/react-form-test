@@ -1,7 +1,7 @@
 //!Criar tipo do formulário
 export type CalculatorFormState = {
-  loanAmount: number;
-  loanPaymentMonths: number;
+  initialLoan: number;
+  installmentsAmount: number;
   birthDate: string;
   age: number;
 };
