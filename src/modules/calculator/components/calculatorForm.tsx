@@ -1,48 +1,57 @@
-import React, { ReactNode, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import React, { useState } from 'react';
+import { Props } from '../types/loanDataTypes';
+import { handleAction } from '../actions/handleSubmit';
 
-//!Criar tipo do formulário
-type CalculatorFormState = {
-  loanAmount: number;
-  loanPaymentMonths: number;
-  birthDate: number;
-};
-const handleAction = (prevState: CalculatorFormState, formData: FormData): CalculatorFormState => {
-  console.log({ prevState, formData });
-  const newState: CalculatorFormState = {
-    loanAmount: Number(formData.get('loanAmount')),
-    loanPaymentMonths: Number(formData.get('loanPaymentMonths')),
-    birthDate: Number(formData.get('birthDate')),
+function CalculatorForm({ startingValue, onSubmit }: Props) {
+  const [formData, setFormData] = useState(startingValue);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  console.log(newState);
-  return newState;
-};
 
-//! Criar validação formulário
-function CalculatorForm(): ReactNode {
-  const startingValue = { loanAmount: 0, loanPaymentMonths: 0, birthDate: 12 };
-  const { pending } = useFormStatus();
-  const [formState, formAction] = useActionState<CalculatorFormState, FormData>(
-    handleAction,
-    startingValue,
-  );
-  const valuesToUseOnCalculation = formState;
-  console.log({ valuesToUseOnCalculation });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newState = handleAction(formData);
+    onSubmit(newState); // Passa os dados para M
+  };
 
   return (
-    <>
-      <form action={formAction}>
-        <div>
-          <label htmlFor="loanAmount">Valor Empréstimo</label>
-          <input id="loanAmount" name="loanAmount" disabled={pending}></input>
-          <label htmlFor="loanPaymentMonths">Pagar em Quantos Meses</label>
-          <input id="loanPaymentMonths" name="loanPaymentMonths" disabled={pending}></input>
-          <label htmlFor="birthDate">Data de Nascimento</label>
-          <input id="birthDate" name="birthDate" disabled={pending}></input>
-          <button type="submit">Enviar</button>
-        </div>
-      </form>
-    </>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="loanAmount">Valor Empréstimo</label>
+      <input
+        id="loanAmount"
+        name="loanAmount"
+        type="number"
+        value={formData.loanAmount}
+        onChange={handleChange}
+      />
+
+      <label htmlFor="loanPaymentMonths">Pagar em Quantos Meses</label>
+      <input
+        id="loanPaymentMonths"
+        name="loanPaymentMonths"
+        type="number"
+        placeholder={String(formData.loanPaymentMonths)}
+        value={formData.loanPaymentMonths}
+        onChange={handleChange}
+      />
+
+      <label htmlFor="birthDate">Data de Nascimento</label>
+      <input
+        id="birthDate"
+        name="birthDate"
+        type="string"
+        placeholder={formData.birthDate}
+        value={formData.birthDate}
+        onChange={handleChange}
+      />
+
+      <button type="submit">Enviar</button>
+    </form>
   );
 }
 

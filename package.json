@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.14",
+    "date-fns": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0"
@@ -51,7 +52,8 @@
     "jest-axe": "^10.0.0",
     "lint-staged": "^16.1.2",
     "typescript": "^5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "date-fns": "^4.1.0"
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
