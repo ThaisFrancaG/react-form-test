@@ -8,6 +8,6 @@ export type CalculatorFormState = {
 
 export type Props = {
   startingValue: CalculatorFormState;
-  // eslint-disable-next-line no-unused-vars
-  onSubmit: (data: CalculatorFormState) => void;
+  onSubmit: (formData: CalculatorFormState) => void;
+  setLoading: (isLoading: boolean) => void;
 };

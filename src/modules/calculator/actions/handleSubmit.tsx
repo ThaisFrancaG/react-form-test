@@ -15,8 +15,8 @@ const calculateAge = (birthDate: string): number => {
 };
 export const handleAction = (prevState: CalculatorFormState): CalculatorFormState => {
   const newState: CalculatorFormState = {
-    loanAmount: Number(prevState['loanAmount']),
-    loanPaymentMonths: Number(prevState['loanPaymentMonths']),
+    initialLoan: Number(prevState['initialLoan']),
+    installmentsAmount: Number(prevState['installmentsAmount']),
     birthDate: String(prevState['birthDate']),
     age: calculateAge(String(prevState['birthDate'])),
   };

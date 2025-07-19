@@ -6,7 +6,7 @@ export class LoanPlanCalculator {
   constructor(loan: CalculatorFormState) {
     this.loanStarterInfo = loan;
   }
-  calculateLoanPayment() {
+  async calculateLoanPayment(): Promise<PaymentDetails> {
     const { age, initialLoan, installmentsAmount } = this.loanStarterInfo;
 
     const anualInterest = this.getInterestByAge(age);
@@ -16,10 +16,16 @@ export class LoanPlanCalculator {
       initialLoan,
       monthlyInterestRate,
       installmentsAmount,
+      installmentValue: 0,
+      finalLoan: 0,
+      anualInterestRate: anualInterest,
     };
     const monthlyPaymentValue = this.getInstallmentsValue(paymentPlanData);
+    paymentPlanData.finalLoan = monthlyPaymentValue * installmentsAmount;
+    paymentPlanData.installmentValue = monthlyPaymentValue;
+    paymentPlanData.anualInterestRate = anualInterest;
 
-    return { monthlyPaymentValue, anualInterest };
+    return paymentPlanData;
   }
   private getInterestByAge(age: number) {
     if (age <= 25) {
@@ -33,10 +39,10 @@ export class LoanPlanCalculator {
     }
     return 4;
   }
-  private getInstallmentsValue(paymentPlanData: PaymentDetails): number {
+  getInstallmentsValue(paymentPlanData: PaymentDetails): number {
     const { initialLoan, monthlyInterestRate, installmentsAmount } = paymentPlanData;
-    const numerator = initialLoan * monthlyInterestRate;
-    const denominator = (1 - (1 + monthlyInterestRate)) ^ -installmentsAmount;
+    const numerator = (initialLoan * monthlyInterestRate) / 100;
+    const denominator = 1 - (1 + monthlyInterestRate / 100) ** -installmentsAmount;
     const monthlyPayment = numerator / denominator;
     return monthlyPayment;
   }

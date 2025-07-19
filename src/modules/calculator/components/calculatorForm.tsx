@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Props } from '../types/loanDataTypes';
 import { handleAction } from '../actions/handleSubmit';
 
-function CalculatorForm({ startingValue, onSubmit }: Props) {
+function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   const [formData, setFormData] = useState(startingValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -16,27 +17,28 @@ function CalculatorForm({ startingValue, onSubmit }: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newState = handleAction(formData);
-    onSubmit(newState); // Passa os dados para M
+    onSubmit(newState);
+    setLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="loanAmount">Valor Empréstimo</label>
+      <label htmlFor="initialLoan">Valor Empréstimo</label>
       <input
-        id="loanAmount"
-        name="loanAmount"
+        id="initialLoan"
+        name="initialLoan"
         type="number"
-        value={formData.loanAmount}
+        value={formData.initialLoan}
         onChange={handleChange}
       />
 
-      <label htmlFor="loanPaymentMonths">Pagar em Quantos Meses</label>
+      <label htmlFor="installmentsAmount">Pagar em Quantos Meses</label>
       <input
-        id="loanPaymentMonths"
-        name="loanPaymentMonths"
+        id="installmentsAmount"
+        name="installmentsAmount"
         type="number"
-        placeholder={String(formData.loanPaymentMonths)}
-        value={formData.loanPaymentMonths}
+        placeholder={String(formData.installmentsAmount)}
+        value={formData.installmentsAmount}
         onChange={handleChange}
       />
 
@@ -44,7 +46,7 @@ function CalculatorForm({ startingValue, onSubmit }: Props) {
       <input
         id="birthDate"
         name="birthDate"
-        type="string"
+        type="text"
         placeholder={formData.birthDate}
         value={formData.birthDate}
         onChange={handleChange}
