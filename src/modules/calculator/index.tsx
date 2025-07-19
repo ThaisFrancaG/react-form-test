@@ -34,12 +34,11 @@ export default function CalculatorModule() {
         setLoading={setLoading}
       />
       {inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}
-      {inputData.initialLoan > 0 && (
+      {inputData.initialLoan > 0 && !loading && (
         <CalculatorResultDisplay
           data={inputData}
           onCalculate={setOutputData}
           outputData={outputData}
-          loading={loading}
         />
       )}
     </div>
