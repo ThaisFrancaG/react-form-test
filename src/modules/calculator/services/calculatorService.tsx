@@ -8,9 +8,8 @@ export class LoanPlanCalculator {
   }
   async calculateLoanPayment(): Promise<PaymentDetails> {
     const { age, initialLoan, installmentsAmount } = this.loanStarterInfo;
-
+    //todo fix type
     const anualInterest = this.getInterestByAge(age);
-    //todo: deal with floor
     const monthlyInterestRate = anualInterest / 12;
     const paymentPlanData: PaymentDetails = {
       initialLoan,

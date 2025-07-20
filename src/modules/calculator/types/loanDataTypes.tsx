@@ -1,12 +1,14 @@
-export type CalculatorFormState = {
+type CalculatorFormState = {
   initialLoan: number;
   installmentsAmount: number;
   birthDate: string;
   age?: number;
 };
 
-export type Props = {
+type Props = {
   startingValue: CalculatorFormState;
   onSubmit: (formData: CalculatorFormState) => void;
   setLoading: (isLoading: boolean) => void;
 };
+
+export type { Props, CalculatorFormState };

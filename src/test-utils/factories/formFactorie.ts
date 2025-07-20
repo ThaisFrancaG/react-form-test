@@ -1,7 +1,9 @@
 // src/modules/calculator/tests/__mocks__/formFactory.ts
 import { faker } from '@faker-js/faker';
+import { CalculatorFormState, PaymentDetails } from '../../modules/calculator/types';
+import { LoanPlanCalculator } from '../../modules/calculator/services/calculatorService';
 
-export function createCalculatorFormData(overrides = {}) {
+export function createCalculatorFormData(overrides = {}): CalculatorFormState {
   const mock = {
     initialLoan: faker.number.int({ min: 1000, max: 100000 }),
     installmentsAmount: faker.number.int({ min: 6, max: 60 }),
@@ -10,6 +12,19 @@ export function createCalculatorFormData(overrides = {}) {
       .toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
     ...overrides,
   };
+
+  return mock;
+}
+
+export async function createPaymentPlanData(
+  startingData: CalculatorFormState,
+  overrides = {},
+): Promise<PaymentDetails> {
+  const loanPlanCalculator = new LoanPlanCalculator(startingData);
+
+  const paymentPlan = await loanPlanCalculator.calculateLoanPayment();
+
+  const mock = { ...paymentPlan, ...overrides };
 
   return mock;
 }

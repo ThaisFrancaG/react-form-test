@@ -1,4 +1,4 @@
-export type PaymentDetails = {
+type PaymentDetails = {
   initialLoan: number;
   monthlyInterestRate: number;
   anualInterestRate: number;
@@ -6,3 +6,5 @@ export type PaymentDetails = {
   finalLoan: number;
   installmentValue: number;
 };
+
+export type { PaymentDetails };
