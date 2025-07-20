@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { CalculatorForm, CalculatorInputDisplay, CalculatorResultDisplay } from './components';
-import { CalculatorFormState } from './types/loanDataTypes';
 import { format } from 'date-fns';
-import { PaymentDetails } from './types/loanPaymentTypes';
+import { InputLoanData, PaymentDetails } from './types';
 
 export default function CalculatorModule() {
-  const [inputData, setInputData] = useState<CalculatorFormState>({
+  const [inputData, setInputData] = useState<InputLoanData>({
     initialLoan: 0,
     installmentsAmount: 0,
     birthDate: String(format(new Date(), 'dd/MM/yyyy')),
-
-    age: 0,
   });
 
   const [outputData, setOutputData] = useState<PaymentDetails>({
@@ -22,7 +19,7 @@ export default function CalculatorModule() {
     anualInterestRate: 0,
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const handleFormSubmit = (inputData: CalculatorFormState) => {
+  const handleFormSubmit = (inputData: InputLoanData) => {
     setInputData(inputData);
   };
   return (

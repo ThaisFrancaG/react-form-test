@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { CalculatorResultDisplay } from '../../../components';
-import React from 'react';
+import React, { act } from 'react';
 import {
   createCalculatorFormData,
   createPaymentPlanData,
@@ -41,12 +41,14 @@ describe('CalculatorResultDisplay', () => {
       initialLoan: mockInputData.initialLoan + 1000,
     });
     const newOutputData = await createPaymentPlanData(newInputData);
-    render(
-      <CalculatorResultDisplay
-        data={newInputData}
-        onCalculate={mockOnCalculate}
-        outputData={newOutputData}
-      />,
+    await act(async () =>
+      render(
+        <CalculatorResultDisplay
+          data={newInputData}
+          onCalculate={mockOnCalculate}
+          outputData={newOutputData}
+        />,
+      ),
     );
     const updatedFinalLoan = await screen.findByText(String(newOutputData.finalLoan));
     expect(updatedFinalLoan).toBeInTheDocument();

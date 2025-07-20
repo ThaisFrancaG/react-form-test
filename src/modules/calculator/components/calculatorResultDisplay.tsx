@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { CalculatorFormState } from '../types/loanDataTypes';
 import { LoanPlanCalculator } from '../services/calculatorService';
-import { PaymentDetails } from '../types/loanPaymentTypes';
+import { InputLoanData, PaymentDetails } from '../types';
 
 function CalculatorResultDisplay({
   data,
   onCalculate,
   outputData,
 }: {
-  data: CalculatorFormState;
+  data: InputLoanData;
   onCalculate: (data: PaymentDetails) => void;
   outputData: PaymentDetails;
 }) {

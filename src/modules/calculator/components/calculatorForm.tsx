@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Props } from '../types/loanDataTypes';
-import { handleAction } from '../actions/handleSubmit';
+import { handleFormInput } from '../actions/handleSubmit';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   const [formData, setFormData] = useState(startingValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log({ name, value });
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -17,7 +16,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
     e.preventDefault();
-    const newState = handleAction(formData);
+    const newState = handleFormInput(formData);
     onSubmit(newState);
     setLoading(false);
   };

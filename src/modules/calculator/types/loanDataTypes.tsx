@@ -1,14 +1,26 @@
-type CalculatorFormState = {
+type InputLoanData = {
   initialLoan: number;
   installmentsAmount: number;
   birthDate: string;
-  age?: number;
+};
+
+type StartLoanData = InputLoanData & {
+  age: number;
+};
+
+type PaymentDetails = {
+  initialLoan: number;
+  monthlyInterestRate: number;
+  anualInterestRate: number;
+  installmentsAmount: number;
+  finalLoan: number;
+  installmentValue: number;
 };
 
 type Props = {
-  startingValue: CalculatorFormState;
-  onSubmit: (formData: CalculatorFormState) => void;
+  startingValue: InputLoanData;
+  onSubmit: (formData: InputLoanData) => void;
   setLoading: (isLoading: boolean) => void;
 };
 
-export type { Props, CalculatorFormState };
+export type { Props, InputLoanData, PaymentDetails, StartLoanData };

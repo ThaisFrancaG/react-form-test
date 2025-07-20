@@ -1,7 +1,7 @@
 import React from 'react';
-import { CalculatorFormState } from '../types/loanDataTypes';
+import { InputLoanData } from '../types/loanDataTypes';
 
-function CalculatorInputDisplay({ data }: { data: CalculatorFormState }) {
+function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
   return (
     <section aria-label="Resumo dos dados fornecidos">
       <dl>
