@@ -50,7 +50,6 @@ export class LoanPlanCalculator implements ILoanPlanCalculator {
   }
 
   private calculateAge = (birthDate: string): number => {
-    console.log({ birthDate });
     const now = new Date();
     const birthDateArray = birthDate.split('/');
     const birthDateDate = new Date(

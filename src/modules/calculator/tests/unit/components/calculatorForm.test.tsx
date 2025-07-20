@@ -24,7 +24,6 @@ describe('CalculatorForm', () => {
   });
 
   it('loads form with initial values', () => {
-    console.log(startingValue);
     expect(screen.getByLabelText(/valor empréstimo/i)).toHaveValue(startingValue.initialLoan);
     expect(screen.getByLabelText(/pagar em quantos meses/i)).toHaveValue(
       startingValue.installmentsAmount,
