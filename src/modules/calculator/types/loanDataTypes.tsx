@@ -1,4 +1,3 @@
-//!Criar tipo do formulário
 export type CalculatorFormState = {
   initialLoan: number;
   installmentsAmount: number;
