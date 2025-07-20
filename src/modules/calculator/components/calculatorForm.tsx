@@ -22,7 +22,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="form">
       <label htmlFor="initialLoan">Valor Empréstimo</label>
       <input
         id="initialLoan"

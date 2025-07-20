@@ -1,7 +1,7 @@
 import { createCalculatorFormData } from '../../../../../test-utils/factories/formFactorie';
 import { LoanPlanCalculator } from '../../../services/calculatorService';
 import { InputLoanData } from '../../../types';
-import { ILoanPlanCalculator } from '../components/interfaces/services.interface';
+import { ILoanPlanCalculator } from '../../../interfaces/services.interface';
 
 describe('Calculator Service', () => {
   let loanPlanCalculator: ILoanPlanCalculator;

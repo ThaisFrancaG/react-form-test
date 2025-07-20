@@ -25,7 +25,8 @@ function CalculatorResultDisplay({
   }, [data]);
 
   return (
-    <dl aria-label="Detalhes do empréstimo">
+    <dl aria-label="Detalhes do empréstimo" data-testid="result-display">
+      <h2>Plano De Pagamento</h2>
       <div>
         <dt>Valor Final:</dt>
         <dd>{loanDetails.finalLoan}</dd>

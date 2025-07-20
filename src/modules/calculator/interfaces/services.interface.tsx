@@ -1,4 +1,4 @@
-import { PaymentDetails } from '../../../../types';
+import { PaymentDetails } from '../types';
 
 interface ILoanPlanCalculator {
   calculateLoanPayment(): Promise<PaymentDetails>;

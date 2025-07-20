@@ -1,4 +1,4 @@
-import { ILoanPlanCalculator } from '../tests/unit/components/interfaces/services.interface';
+import { ILoanPlanCalculator } from '../interfaces/services.interface';
 import { InputLoanData, PaymentDetails } from '../types';
 import { differenceInCalendarMonths } from 'date-fns';
 
