@@ -6,8 +6,8 @@ function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   const [formData, setFormData] = useState(startingValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
     const { name, value } = e.target;
+    console.log({ name, value });
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -15,6 +15,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     const newState = handleAction(formData);
     onSubmit(newState);

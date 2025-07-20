@@ -3,7 +3,7 @@ export type CalculatorFormState = {
   initialLoan: number;
   installmentsAmount: number;
   birthDate: string;
-  age: number;
+  age?: number;
 };
 
 export type Props = {
