@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { CalculatorForm, CalculatorInputDisplay, CalculatorResultDisplay } from './components';
-import { CalculatorFormState } from './types/loanDataTypes';
-// import { format } from 'date-fns';
-import { PaymentDetails } from './types/loanPaymentTypes';
+import { format } from 'date-fns';
+import { InputLoanData, PaymentDetails } from './types';
 
 export default function CalculatorModule() {
-  const [inputData, setInputData] = useState<CalculatorFormState>({
-    initialLoan: 1000,
-    installmentsAmount: 2,
-    // birthDate: String(format(new Date(), 'dd/MM/yyyy')),
-    birthDate: '20/08/1994',
-
-    age: 0,
+  const [inputData, setInputData] = useState<InputLoanData>({
+    initialLoan: 0,
+    installmentsAmount: 0,
+    birthDate: String(format(new Date(), 'dd/MM/yyyy')),
   });
 
   const [outputData, setOutputData] = useState<PaymentDetails>({
@@ -23,7 +19,7 @@ export default function CalculatorModule() {
     anualInterestRate: 0,
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const handleFormSubmit = (inputData: CalculatorFormState) => {
+  const handleFormSubmit = (inputData: InputLoanData) => {
     setInputData(inputData);
   };
   return (
@@ -34,12 +30,11 @@ export default function CalculatorModule() {
         setLoading={setLoading}
       />
       {inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}
-      {inputData.initialLoan > 0 && (
+      {inputData.initialLoan > 0 && !loading && (
         <CalculatorResultDisplay
           data={inputData}
           onCalculate={setOutputData}
           outputData={outputData}
-          loading={loading}
         />
       )}
     </div>

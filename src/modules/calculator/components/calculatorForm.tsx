@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Props } from '../types/loanDataTypes';
-import { handleAction } from '../actions/handleSubmit';
+import { handleFormInput } from '../actions/handleSubmit';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   const [formData, setFormData] = useState(startingValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -15,14 +14,15 @@ function CalculatorForm({ startingValue, onSubmit, setLoading }: Props) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
-    const newState = handleAction(formData);
+    const newState = handleFormInput(formData);
     onSubmit(newState);
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="form">
       <label htmlFor="initialLoan">Valor Empréstimo</label>
       <input
         id="initialLoan"

@@ -1,13 +1,21 @@
 import React from 'react';
-import { CalculatorFormState } from '../types/loanDataTypes';
+import { InputLoanData } from '../types/loanDataTypes';
 
-function CalculatorInputDisplay({ data }: { data: CalculatorFormState }) {
+function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
   return (
-    <div>
-      <p>Empréstimo: {data.initialLoan}</p>
-      <p>Meses: {data.installmentsAmount}</p>
-      <p>Nascimento: {data.birthDate}</p>
-    </div>
+    <section aria-label="Resumo dos dados fornecidos" data-testid="input-display">
+      <dl>
+        <h2>Dados Do Empréstimo</h2>
+        <dt>Empréstimo:</dt>
+        <dd>{data.initialLoan}</dd>
+
+        <dt>Meses:</dt>
+        <dd>{data.installmentsAmount}</dd>
+
+        <dt>Data de nascimento:</dt>
+        <dd>{data.birthDate}</dd>
+      </dl>
+    </section>
   );
 }
 
