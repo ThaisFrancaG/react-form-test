@@ -2,18 +2,11 @@ import React, { useState } from 'react';
 import { Props } from '../types/loanDataTypes';
 import { handleFormInput } from '../actions/handleSubmit';
 import { calculatorFormSchema } from '../types';
+import { formatBRL } from '../../../shared/utils/numeric.utils';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props) {
   const [formData, setFormData] = useState(startingValue);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  function formatBRL(cents: number) {
-    const reais = (cents / 100).toFixed(2);
-    return Number(reais).toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-  }
 
   function handleInitialLoanChange(e: React.ChangeEvent<HTMLInputElement>) {
     let onlyDigits = e.target.value.replace(/\D/g, '');
@@ -153,7 +146,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
         </span>
       )}
 
-      <button type="submit" disabled={loading === true}>
+      <button type="submit" disabled={!loading}>
         Enviar
       </button>
     </form>

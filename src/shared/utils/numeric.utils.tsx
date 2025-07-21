@@ -1,10 +1,9 @@
-const writeCentsAsFinancial = (value: number) => {
-  const reais = value / 100;
-  return new Intl.NumberFormat('pt-BR', {
+function formatBRL(cents: number) {
+  const reais = (cents / 100).toFixed(2);
+  return Number(reais).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-    minimumFractionDigits: 2,
-  }).format(reais);
-};
+  });
+}
 
-export { writeCentsAsFinancial };
+export { formatBRL };

@@ -1,6 +1,6 @@
+import { formatBRL } from '../../../shared/utils/numeric.utils';
 import { InputLoanData } from '../types';
 import React from 'react';
-import { writeCentsAsFinancial } from '../../../shared/utils/numeric.utils';
 
 function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
   return (
@@ -8,7 +8,7 @@ function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
       <h2>Dados do Empréstimo</h2>
       <dl>
         <dt>Empréstimo:</dt>
-        <dd>{writeCentsAsFinancial(data.initialLoan)}</dd>
+        <dd>{formatBRL(data.initialLoan)}</dd>
 
         <dt>Meses:</dt>
         <dd>{data.installmentsAmount}</dd>
