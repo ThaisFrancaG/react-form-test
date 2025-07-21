@@ -43,6 +43,15 @@ export default defineConfig([
       ...reactRefresh.configs.vite.rules,
     },
   },
+  //Regras de tetses
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
 
   // Regras gerais e globals
   {

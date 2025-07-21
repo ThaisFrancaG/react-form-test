@@ -1,17 +1,19 @@
-import { CalculatorFormState } from '../types/loanDataTypes';
-import { PaymentDetails } from '../types/loanPaymentTypes';
+import { ILoanPlanCalculator } from '../interfaces/services.interface';
+import { InputLoanData, PaymentDetails } from '../types';
+import { differenceInCalendarMonths } from 'date-fns';
 
-export class LoanPlanCalculator {
-  loanStarterInfo: CalculatorFormState;
-  constructor(loan: CalculatorFormState) {
+export class LoanPlanCalculator implements ILoanPlanCalculator {
+  private loanStarterInfo: InputLoanData;
+  constructor(loan: InputLoanData) {
     this.loanStarterInfo = loan;
   }
   async calculateLoanPayment(): Promise<PaymentDetails> {
-    const { age, initialLoan, installmentsAmount } = this.loanStarterInfo;
+    const { initialLoan, installmentsAmount, birthDate } = this.loanStarterInfo;
+
+    const age = this.calculateAge(birthDate);
 
     const anualInterest = this.getInterestByAge(age);
-    //todo: deal with floor
-    const monthlyInterestRate = anualInterest / 12;
+    const monthlyInterestRate = Number((anualInterest / 12).toFixed(3));
     const paymentPlanData: PaymentDetails = {
       initialLoan,
       monthlyInterestRate,
@@ -43,7 +45,21 @@ export class LoanPlanCalculator {
     const { initialLoan, monthlyInterestRate, installmentsAmount } = paymentPlanData;
     const numerator = (initialLoan * monthlyInterestRate) / 100;
     const denominator = 1 - (1 + monthlyInterestRate / 100) ** -installmentsAmount;
-    const monthlyPayment = numerator / denominator;
-    return monthlyPayment;
+    const monthlyPayment = (numerator / denominator).toFixed(2);
+    return Number(monthlyPayment);
   }
+
+  private calculateAge = (birthDate: string): number => {
+    const now = new Date();
+    const birthDateArray = birthDate.split('/');
+    const birthDateDate = new Date(
+      Number(birthDateArray[2]),
+      Number(birthDateArray[1]),
+      Number(birthDateArray[0]),
+    );
+    const totalAgeMonths = differenceInCalendarMonths(now, birthDateDate);
+    const ageCompletedYears = Math.floor(totalAgeMonths / 12);
+
+    return ageCompletedYears;
+  };
 }
