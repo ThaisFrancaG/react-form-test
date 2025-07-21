@@ -83,7 +83,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
 
   return (
     <form onSubmit={handleSubmit} data-testid="form" noValidate>
-      {/* Valor Empréstimo */}
       <label htmlFor="initialLoan">Valor Empréstimo</label>
       <input
         id="initialLoan"
@@ -103,7 +102,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
         </span>
       )}
 
-      {/* Parcelas */}
       <label htmlFor="installmentsAmount">Parcelas</label>
       <input
         id="installmentsAmount"
@@ -122,7 +120,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
         </span>
       )}
 
-      {/* Data de Nascimento */}
       <label htmlFor="birthDate">Data de Nascimento</label>
       <input
         id="birthDate"
