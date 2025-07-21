@@ -19,6 +19,7 @@ type PaymentDetails = {
 
 type Props = {
   startingValue: InputLoanData;
+  loading: boolean;
   onSubmit: (formData: InputLoanData) => void;
   setLoading: (isLoading: boolean) => void;
 };

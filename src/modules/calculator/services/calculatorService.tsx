@@ -13,7 +13,7 @@ export class LoanPlanCalculator implements ILoanPlanCalculator {
     const age = this.calculateAge(birthDate);
 
     const anualInterest = this.getInterestByAge(age);
-    const monthlyInterestRate = anualInterest / 12;
+    const monthlyInterestRate = Number((anualInterest / 12).toFixed(3));
     const paymentPlanData: PaymentDetails = {
       initialLoan,
       monthlyInterestRate,
@@ -45,8 +45,8 @@ export class LoanPlanCalculator implements ILoanPlanCalculator {
     const { initialLoan, monthlyInterestRate, installmentsAmount } = paymentPlanData;
     const numerator = (initialLoan * monthlyInterestRate) / 100;
     const denominator = 1 - (1 + monthlyInterestRate / 100) ** -installmentsAmount;
-    const monthlyPayment = numerator / denominator;
-    return monthlyPayment;
+    const monthlyPayment = (numerator / denominator).toFixed(2);
+    return Number(monthlyPayment);
   }
 
   private calculateAge = (birthDate: string): number => {

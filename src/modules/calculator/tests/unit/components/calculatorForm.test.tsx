@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { CalculatorForm } from '../../../components';
 import React from 'react';
 import { createCalculatorFormData } from '../../../../../test-utils/factories/formFactorie';
+import { writeCentsAsFinancial } from '../../../../../shared/utils/numeric.utils';
 
 describe('CalculatorForm', () => {
   const startingValue = createCalculatorFormData();
@@ -19,15 +20,16 @@ describe('CalculatorForm', () => {
         startingValue={startingValue}
         onSubmit={mockOnSubmit}
         setLoading={mockSetLoading}
+        loading={false}
       />,
     );
   });
 
   it('loads form with initial values', () => {
-    expect(screen.getByLabelText(/valor empréstimo/i)).toHaveValue(startingValue.initialLoan);
-    expect(screen.getByLabelText(/pagar em quantos meses/i)).toHaveValue(
-      startingValue.installmentsAmount,
+    expect(screen.getByLabelText(/valor empréstimo/i)).toHaveValue(
+      writeCentsAsFinancial(startingValue.initialLoan),
     );
+    expect(screen.getByLabelText(/parcelas/i)).toHaveValue(startingValue.installmentsAmount);
     expect(screen.getByLabelText(/data de nascimento/i)).toHaveValue(startingValue.birthDate);
   });
 
@@ -35,7 +37,7 @@ describe('CalculatorForm', () => {
     const loanInput = screen.getByLabelText(/valor empréstimo/i);
     fireEvent.change(loanInput, { target: { value: 100 } });
 
-    expect(loanInput).toHaveValue(100);
+    expect(loanInput).toHaveValue(writeCentsAsFinancial(100));
   });
   it('calls onSubmit with current form data and toggles loading state on submit', () => {
     const loanInput = screen.getByLabelText(/valor empréstimo/i);
@@ -43,7 +45,7 @@ describe('CalculatorForm', () => {
 
     fireEvent.change(loanInput, { target: { value: 1000 } });
     fireEvent.click(submitButton);
-    const expectedInput = { ...startingValue, initialLoan: 1000 };
+    const expectedInput = { ...startingValue, initialLoan: 100000 };
     expect(mockSetLoading).toHaveBeenCalledWith(true);
     expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining(expectedInput));
     expect(mockSetLoading).toHaveBeenCalledWith(false);

@@ -7,6 +7,7 @@ import {
   createPaymentPlanData,
 } from '../../../../../test-utils/factories/formFactorie';
 import { PaymentDetails } from '../../../types';
+import { writeCentsAsFinancial } from '../../../../../shared/utils/numeric.utils';
 
 describe('CalculatorResultDisplay', () => {
   let mockInputData = createCalculatorFormData();
@@ -27,7 +28,9 @@ describe('CalculatorResultDisplay', () => {
   });
 
   it('displays proper calculated values', async () => {
-    expect(await screen.findByText(String(mockOutputData.finalLoan))).toBeInTheDocument();
+    expect(
+      await screen.findByText(writeCentsAsFinancial(mockOutputData.finalLoan)),
+    ).toBeInTheDocument();
     expect(await screen.findByText(String(mockOutputData.installmentValue))).toBeInTheDocument();
     expect(await screen.findByText(String(mockOutputData.monthlyInterestRate))).toBeInTheDocument();
     expect(await screen.findByText(String(mockOutputData.anualInterestRate))).toBeInTheDocument();
