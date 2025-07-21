@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LoanPlanCalculator } from '../services/calculatorService';
 import { InputLoanData, PaymentDetails } from '../types';
+import { NumericFormat } from 'react-number-format';
 
 function CalculatorResultDisplay({
   data,
@@ -29,11 +30,27 @@ function CalculatorResultDisplay({
       <h2>Plano De Pagamento</h2>
       <div>
         <dt>Valor Final:</dt>
-        <dd>{loanDetails.finalLoan}</dd>
+        <dd>
+          <NumericFormat
+            value={(loanDetails.finalLoan / 100).toFixed(2)}
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="R$ "
+            displayType="text"
+          />
+        </dd>
       </div>
       <div>
         <dt>Parcelas:</dt>
-        <dd>{loanDetails.installmentValue}</dd>
+        <dd>
+          <NumericFormat
+            value={(loanDetails.installmentValue / 100).toFixed(2)}
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="R$ "
+            displayType="text"
+          />
+        </dd>
       </div>
       <div>
         <dt>Juros ao Mês:</dt>

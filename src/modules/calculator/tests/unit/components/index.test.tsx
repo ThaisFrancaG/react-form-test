@@ -18,7 +18,7 @@ describe('CalculatorIndex', () => {
   it('should load input display if input is given', async () => {
     const mockInput = createCalculatorFormData();
     const loanInput = screen.getByLabelText(/valor empréstimo/i);
-    const installmentsInput = screen.getByLabelText(/pagar em quantos meses/i);
+    const installmentsInput = screen.getByLabelText(/parcelas/i);
     const birthDate = screen.getByLabelText(/data de nascimento/i);
 
     fireEvent.change(loanInput, { target: { value: mockInput.initialLoan } });

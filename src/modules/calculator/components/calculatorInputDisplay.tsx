@@ -1,13 +1,14 @@
+import { formatBRL } from '../../../shared/utils/numeric.utils';
+import { InputLoanData } from '../types';
 import React from 'react';
-import { InputLoanData } from '../types/loanDataTypes';
 
 function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
   return (
     <section aria-label="Resumo dos dados fornecidos" data-testid="input-display">
+      <h2>Dados do Empréstimo</h2>
       <dl>
-        <h2>Dados Do Empréstimo</h2>
         <dt>Empréstimo:</dt>
-        <dd>{data.initialLoan}</dd>
+        <dd>{formatBRL(data.initialLoan)}</dd>
 
         <dt>Meses:</dt>
         <dd>{data.installmentsAmount}</dd>
