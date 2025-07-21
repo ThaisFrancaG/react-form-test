@@ -28,7 +28,7 @@ export default function CalculatorModule() {
         startingValue={inputData}
         onSubmit={handleFormSubmit}
         setLoading={setLoading}
-        loading
+        loading={loading}
       />
       {inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}
       {inputData.initialLoan > 0 && !loading && (

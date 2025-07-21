@@ -11,8 +11,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
   function handleInitialLoanChange(e: React.ChangeEvent<HTMLInputElement>) {
     let onlyDigits = e.target.value.replace(/\D/g, '');
 
-    if (onlyDigits.length > 15) return;
-
     onlyDigits = onlyDigits.replace(/^0+/, '') || '0';
 
     setFormData((prev) => ({
@@ -25,8 +23,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
 
   function handleInstallmentsChange(e: React.ChangeEvent<HTMLInputElement>) {
     let onlyDigits = Number(e.target.value.replace(/\D/g, ''));
-
-    if (onlyDigits > 36) return;
 
     setFormData((prev) => ({
       ...prev,
@@ -146,7 +142,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
         </span>
       )}
 
-      <button type="submit" disabled={!loading}>
+      <button type="submit" disabled={loading}>
         Enviar
       </button>
     </form>
