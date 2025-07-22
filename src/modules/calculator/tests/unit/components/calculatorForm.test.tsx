@@ -53,6 +53,9 @@ describe('CalculatorForm', () => {
 
     await waitFor(() => {
       expect(mockSetLoading).toHaveBeenNthCalledWith(1, true);
+    });
+
+    await waitFor(() => {
       expect(mockSetLoading).toHaveBeenNthCalledWith(2, false);
     });
 
