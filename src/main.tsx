@@ -3,7 +3,7 @@ import React, { StrictMode } from 'react';
 import App from './App';
 import './shared/styles/themes.css';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './contexts/theme/themeContext';
+import { ThemeProvider } from './contexts/theme/themeProvider';
 import { ErrorProvider } from './contexts/errors/errors';
 import { LoadingProvider } from './contexts/loading/loadingProvider';
 

@@ -1,22 +1,23 @@
 import { formatBRL } from '../../../shared/utils/numeric.utils';
+import { Section, Title, DescriptionList, Description, Term } from '../styles/displayStyles';
 import { InputLoanData } from '../types';
 import React from 'react';
 
 function CalculatorInputDisplay({ data }: { data: InputLoanData }) {
   return (
-    <section aria-label="Resumo dos dados fornecidos" data-testid="input-display">
-      <h2>Dados do Empréstimo</h2>
-      <dl>
-        <dt>Empréstimo:</dt>
-        <dd>{formatBRL(data.initialLoan)}</dd>
+    <Section aria-label="Resumo dos dados fornecidos" data-testid="input-display">
+      <Title>Dados do Empréstimo</Title>
+      <DescriptionList>
+        <Term>Empréstimo:</Term>
+        <Description>{formatBRL(data.initialLoan)}</Description>
 
-        <dt>Meses:</dt>
-        <dd>{data.installmentsAmount}</dd>
+        <Term>Meses:</Term>
+        <Description>{data.installmentsAmount}</Description>
 
-        <dt>Data de nascimento:</dt>
-        <dd>{data.birthDate}</dd>
-      </dl>
-    </section>
+        <Term>Data de nascimento:</Term>
+        <Description>{data.birthDate}</Description>
+      </DescriptionList>
+    </Section>
   );
 }
 
