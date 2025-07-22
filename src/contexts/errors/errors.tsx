@@ -1,4 +1,3 @@
-// src/context/ErrorContext.tsx
 import React, { useState, useCallback } from 'react';
 import { ErrorContext } from './errorContext';
 
@@ -9,7 +8,7 @@ export const ErrorProvider = ({ children }: { children: React.ReactNode }) => {
     setErrorMessage(message);
     setTimeout(() => {
       setErrorMessage(null);
-    }, 5000); // limpa em 5s
+    }, 5000);
   }, []);
 
   const clearError = () => setErrorMessage(null);

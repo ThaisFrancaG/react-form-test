@@ -24,7 +24,6 @@ export default {
   },
   parserPreset: {
     parserOpts: {
-      // Aceita tipos em minúsculas (a-z), dois pontos opcionais, depois espaço e subject
       headerPattern: /^(\w+)(:)\s(.+)$/,
       headerCorrespondence: ['type', 'separator', 'subject'],
     },

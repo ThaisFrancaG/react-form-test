@@ -7,13 +7,10 @@ import tsParser from '@typescript-eslint/parser';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  // Ignorar dist
   globalIgnores(['dist']),
 
-  // Regras base de JS
   js.configs.recommended,
 
-  // Regras base de TS
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -31,7 +28,6 @@ export default defineConfig([
     },
   },
 
-  // Regras React e Vite
   {
     files: ['**/*.{jsx,tsx}'],
     plugins: {
@@ -43,7 +39,6 @@ export default defineConfig([
       ...reactRefresh.configs.vite.rules,
     },
   },
-  //Regras de tetses
   {
     files: ['**/*.test.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -53,7 +48,6 @@ export default defineConfig([
     },
   },
 
-  // Regras gerais e globals
   {
     languageOptions: {
       globals: {

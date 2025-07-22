@@ -1,4 +1,3 @@
-// src/modules/calculator/tests/__mocks__/formFactory.ts
 import { faker } from '@faker-js/faker';
 import { InputLoanData, PaymentDetails } from '../../modules/calculator/types';
 import { LoanPlanCalculator } from '../../modules/calculator/services/calculatorService';
