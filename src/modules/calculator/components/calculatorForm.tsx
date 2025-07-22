@@ -4,40 +4,11 @@ import { handleFormInput } from '../actions/handleSubmit';
 import { formatBRL } from '../../../shared/utils/numeric.utils';
 import { sleep } from '../../../shared/utils/sleep';
 import { calculatorFormSchema } from '../schemas/calculatorFormSchema';
-import {
-  handleBirthDateChangeValue,
-  handleInitialLoanChangeValue,
-  handleInstallmentsChange,
-} from '../handlers/formHandlers';
+import { handleFieldChange } from '../handlers/formHandlers';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormProps) {
   const [formData, setFormData] = useState(startingValue);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setErrors((prev) => ({ ...prev, [name]: '' }));
-    if (name === 'initialLoan') {
-      setFormData((prev) => ({
-        ...prev,
-        initialLoan: handleInitialLoanChangeValue(prev.initialLoan.toString(), value),
-      }));
-    }
-
-    if (name === 'birthDate') {
-      setFormData((prev) => ({
-        ...prev,
-        birthDate: handleBirthDateChangeValue(value, prev.birthDate),
-      }));
-    }
-
-    if (name === 'installmentsAmount') {
-      setFormData((prev) => ({
-        ...prev,
-        installmentsAmount: handleInstallmentsChange(value),
-      }));
-    }
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -82,7 +53,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         autoComplete="off"
         placeholder="R$ 0,00"
         value={formData.initialLoan === 0 ? '' : formatBRL(formData.initialLoan)}
-        onChange={handleChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.initialLoan}
         aria-describedby={errors.initialLoan ? 'error-initialLoan' : undefined}
       />
@@ -100,7 +71,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         inputMode="numeric"
         placeholder="Número de parcelas"
         value={formData.installmentsAmount || ''}
-        onChange={handleChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.installmentsAmount}
         aria-describedby={errors.installmentsAmount ? 'error-installmentsAmount' : undefined}
       />
@@ -118,7 +89,7 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         inputMode="numeric"
         placeholder="dd/mm/aaaa"
         value={formData.birthDate}
-        onChange={handleChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.birthDate}
         aria-describedby={errors.birthDate ? 'error-birthDate' : undefined}
         maxLength={10}

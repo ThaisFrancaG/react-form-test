@@ -1,3 +1,6 @@
+import { calculatorFormSchema } from '../schemas/calculatorFormSchema';
+import { InputLoanData } from '../types';
+
 function handleInitialLoanChangeValue(_: string, input: string): number {
   const onlyDigits = input.replace(/\D/g, '').replace(/^0+/, '') || '0';
   return parseInt(onlyDigits, 10);
@@ -15,4 +18,51 @@ function handleInstallmentsChange(value: string): number {
   return parseInt(onlyDigits, 10);
 }
 
-export { handleInitialLoanChangeValue, handleBirthDateChangeValue, handleInstallmentsChange };
+function handleFieldChange(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setFormData: React.Dispatch<React.SetStateAction<InputLoanData>>,
+  setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>,
+) {
+  const { name, value } = e.target;
+
+  setFormData((prev: InputLoanData) => {
+    let updatedForm = { ...prev };
+
+    if (name === 'initialLoan') {
+      const parsed = handleInitialLoanChangeValue(prev.initialLoan.toString(), value);
+      updatedForm.initialLoan = parsed;
+
+      const result = calculatorFormSchema.shape.initialLoan.safeParse(parsed);
+      setErrors((prev) => ({
+        ...prev,
+        initialLoan: result.success ? '' : result.error?.issues[0].message,
+      }));
+    }
+
+    if (name === 'birthDate') {
+      const formatted = handleBirthDateChangeValue(value, prev.birthDate);
+      updatedForm.birthDate = formatted;
+
+      const result = calculatorFormSchema.shape.birthDate.safeParse(formatted);
+      setErrors((prev) => ({
+        ...prev,
+        birthDate: result.success ? '' : result.error?.issues[0].message,
+      }));
+    }
+
+    if (name === 'installmentsAmount') {
+      const parsed = handleInstallmentsChange(value);
+      updatedForm.installmentsAmount = parsed;
+
+      const result = calculatorFormSchema.shape.installmentsAmount.safeParse(parsed);
+      setErrors((prev) => ({
+        ...prev,
+        installmentsAmount: result.success ? '' : result.error?.issues[0].message,
+      }));
+    }
+
+    return updatedForm;
+  });
+}
+
+export { handleFieldChange };
