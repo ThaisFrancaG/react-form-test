@@ -1,27 +1,34 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { CalculatorForm } from '../../../components';
 import React from 'react';
 import { createCalculatorFormData } from '../../../../../test-utils/factories/formFactorie';
 import { formatBRL } from '../../../../../shared/utils/numeric.utils';
+import { describe, it, beforeEach, expect, vi } from 'vitest';
+import { LoadingProvider } from '../../../../../contexts/loading/loadingProvider';
+import { ThemeProvider } from '../../../../../contexts/theme';
+import userEvent from '@testing-library/user-event';
 
 describe('CalculatorForm', () => {
   const startingValue = createCalculatorFormData();
 
-  let mockOnSubmit: jest.Mock;
-  let mockSetLoading: jest.Mock;
+  let mockOnSubmit: ReturnType<typeof vi.fn>;
+  let mockSetLoading: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    mockOnSubmit = jest.fn();
-    mockSetLoading = jest.fn();
+    mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    mockSetLoading = vi.fn();
 
     render(
-      <CalculatorForm
-        startingValue={startingValue}
-        onSubmit={mockOnSubmit}
-        setLoading={mockSetLoading}
-        loading={false}
-      />,
+      <LoadingProvider>
+        <ThemeProvider>
+          <CalculatorForm
+            startingValue={startingValue}
+            onSubmit={mockOnSubmit}
+            setLoading={mockSetLoading}
+            loading={false}
+          />
+        </ThemeProvider>
+      </LoadingProvider>,
     );
   });
 
@@ -32,27 +39,22 @@ describe('CalculatorForm', () => {
     expect(loanInput).toHaveValue(formatBRL(100));
   });
 
-  it('calls onSubmit with correct data when form is valid', async () => {
-    fireEvent.change(screen.getByLabelText(/valor empréstimo/i), { target: { value: '123456' } });
-    fireEvent.change(screen.getByLabelText(/parcelas/i), { target: { value: '12' } });
-    fireEvent.change(screen.getByLabelText(/data de nascimento/i), {
-      target: { value: '01/01/1990' },
-    });
-
-    fireEvent.click(screen.getByRole('button'));
-
-    await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalled();
-    });
-  });
-
   it('calls onSubmit with current form data and toggles loading state on submit', async () => {
+    const user = userEvent.setup();
+
     const loanInput = screen.getByLabelText(/valor empréstimo/i);
     const submitButton = screen.getByRole('button', { name: /enviar/i });
 
-    fireEvent.change(loanInput, { target: { value: 1000 } });
-    fireEvent.click(submitButton);
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-    await waitFor(() => expect(mockSetLoading).toHaveBeenCalledWith(false));
+    await user.clear(loanInput);
+    await user.type(loanInput, '1000');
+
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(mockSetLoading).toHaveBeenNthCalledWith(1, true);
+      expect(mockSetLoading).toHaveBeenNthCalledWith(2, false);
+    });
+
+    expect(mockOnSubmit).toHaveBeenCalled();
   });
 });

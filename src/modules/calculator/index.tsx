@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { CalculatorForm, CalculatorInputDisplay, CalculatorResultDisplay } from './components';
 import { format } from 'date-fns';
 import { InputLoanData, PaymentDetails } from './types';
+import { useLoading } from '../../contexts/loading/useLoading';
+import { GlobalLoading } from '../../contexts/loading/loadingComponent';
 
 export default function CalculatorModule() {
   const [inputData, setInputData] = useState<InputLoanData>({
@@ -18,7 +20,9 @@ export default function CalculatorModule() {
     installmentValue: 0,
     anualInterestRate: 0,
   });
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const { isLoading, setLoading } = useLoading();
+
   const handleFormSubmit = (inputData: InputLoanData) => {
     setInputData(inputData);
   };
@@ -28,10 +32,11 @@ export default function CalculatorModule() {
         startingValue={inputData}
         onSubmit={handleFormSubmit}
         setLoading={setLoading}
-        loading={loading}
+        loading={isLoading}
       />
       {inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}
-      {inputData.initialLoan > 0 && !loading && (
+      <>{isLoading && <GlobalLoading />}</>
+      {inputData.initialLoan > 0 && !isLoading && (
         <CalculatorResultDisplay
           data={inputData}
           onCalculate={setOutputData}
