@@ -4,6 +4,8 @@ import { format } from 'date-fns';
 import { InputLoanData, PaymentDetails } from './types';
 import { useLoading } from '../../contexts/loading/useLoading';
 import { GlobalLoading } from '../../contexts/loading/loadingComponent';
+import { Column, FirstRow, SecondRow } from './styles/pageStyle';
+import { PageWrapper } from '../../test-utils/style/pageStyles';
 
 export default function CalculatorModule() {
   const [inputData, setInputData] = useState<InputLoanData>({
@@ -27,22 +29,29 @@ export default function CalculatorModule() {
     setInputData(inputData);
   };
   return (
-    <div>
-      <CalculatorForm
-        startingValue={inputData}
-        onSubmit={handleFormSubmit}
-        setLoading={setLoading}
-        loading={isLoading}
-      />
-      {inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}
-      <>{isLoading && <GlobalLoading />}</>
-      {inputData.initialLoan > 0 && !isLoading && (
-        <CalculatorResultDisplay
-          data={inputData}
-          onCalculate={setOutputData}
-          outputData={outputData}
+    <PageWrapper>
+      <FirstRow>
+        <CalculatorForm
+          startingValue={inputData}
+          onSubmit={handleFormSubmit}
+          setLoading={setLoading}
+          loading={isLoading}
         />
-      )}
-    </div>
+      </FirstRow>
+      <SecondRow>
+        <Column>{inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}</Column>
+
+        <>{isLoading && <GlobalLoading />}</>
+        <Column>
+          {inputData.initialLoan > 0 && !isLoading && (
+            <CalculatorResultDisplay
+              data={inputData}
+              onCalculate={setOutputData}
+              outputData={outputData}
+            />
+          )}
+        </Column>
+      </SecondRow>
+    </PageWrapper>
   );
 }
