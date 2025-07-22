@@ -1,6 +1,8 @@
-// src/contexts/theme/themeProvider.tsx
 import React, { useState, useEffect } from 'react';
 import { ThemeContext } from './themeContext';
+import { ThemeProvider as StyledProvider } from 'styled-components';
+import { GlobalStyle } from '../../test-utils/style/globalStyle';
+import { lightTheme, darkTheme } from './style';
 
 export type Theme = 'light' | 'dark';
 
@@ -15,13 +17,19 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     return stored === 'dark' ? 'dark' : 'light';
   });
 
+  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  const themeObject = theme === 'light' ? lightTheme : darkTheme;
+
   useEffect(() => {
-    document.body.className = '';
-    document.body.classList.add(theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <StyledProvider theme={themeObject}>
+        <GlobalStyle />
+        {children}
+      </StyledProvider>
+    </ThemeContext.Provider>
+  );
 };

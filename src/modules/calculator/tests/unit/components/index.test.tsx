@@ -4,13 +4,14 @@ import React from 'react';
 import CalculatorModule from '../../..';
 import { describe, it, beforeEach, expect } from 'vitest';
 import { LoadingProvider } from '../../../../../contexts/loading/loadingProvider';
-import { ThemeProvider } from '../../../../../contexts/theme';
+import { lightTheme } from '../../../../../contexts/theme/style';
+import { ThemeProvider } from 'styled-components';
 
 describe('CalculatorIndex', () => {
   beforeEach(() => {
     render(
       <LoadingProvider>
-        <ThemeProvider>
+        <ThemeProvider theme={lightTheme}>
           <CalculatorModule />
         </ThemeProvider>
       </LoadingProvider>,

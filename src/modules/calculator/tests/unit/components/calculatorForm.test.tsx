@@ -5,8 +5,9 @@ import { createCalculatorFormData } from '../../../../../test-utils/factories/fo
 import { formatBRL } from '../../../../../shared/utils/numeric.utils';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { LoadingProvider } from '../../../../../contexts/loading/loadingProvider';
-import { ThemeProvider } from '../../../../../contexts/theme';
 import userEvent from '@testing-library/user-event';
+import { lightTheme } from '../../../../../contexts/theme/style';
+import { ThemeProvider } from 'styled-components';
 
 describe('CalculatorForm', () => {
   const startingValue = createCalculatorFormData();
@@ -20,7 +21,7 @@ describe('CalculatorForm', () => {
 
     render(
       <LoadingProvider>
-        <ThemeProvider>
+        <ThemeProvider theme={lightTheme}>
           <CalculatorForm
             startingValue={startingValue}
             onSubmit={mockOnSubmit}

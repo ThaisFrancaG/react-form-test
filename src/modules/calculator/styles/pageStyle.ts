@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const FirstRow = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +12,8 @@ export const SecondRow = styled.div`
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
-  padding: 2rem;
+  padding: 1rem;
+  width: 100%;
 
   @media (max-width: 768px) {
     flex-direction: column;

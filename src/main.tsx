@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './contexts/theme/themeProvider';
 import { ErrorProvider } from './contexts/errors/errors';
 import { LoadingProvider } from './contexts/loading/loadingProvider';
-import { ThemeWrapper } from './contexts/theme/themeWrapper';
 
 const container = document.getElementById('root');
 if (!container) {
@@ -18,14 +17,11 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <ThemeWrapper>
-          {' '}
-          <ErrorProvider>
-            <LoadingProvider>
-              <App />
-            </LoadingProvider>
-          </ErrorProvider>
-        </ThemeWrapper>
+        <ErrorProvider>
+          <LoadingProvider>
+            <App />
+          </LoadingProvider>
+        </ErrorProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,

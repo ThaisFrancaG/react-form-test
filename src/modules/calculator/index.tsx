@@ -39,7 +39,9 @@ export default function CalculatorModule() {
         />
       </FirstRow>
       <SecondRow>
-        <Column>{inputData.initialLoan > 0 && <CalculatorInputDisplay data={inputData} />}</Column>
+        <Column>
+          {inputData.initialLoan > 0 && !isLoading && <CalculatorInputDisplay data={inputData} />}
+        </Column>
 
         <>{isLoading && <GlobalLoading />}</>
         <Column>

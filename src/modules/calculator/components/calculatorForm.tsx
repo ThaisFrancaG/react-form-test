@@ -5,6 +5,7 @@ import { formatBRL } from '../../../shared/utils/numeric.utils';
 import { sleep } from '../../../shared/utils/sleep';
 import { calculatorFormSchema } from '../schemas/calculatorFormSchema';
 import { handleFieldChange } from '../handlers/formHandlers';
+import { ErrorMessage, FormWrapper, Input, Label, SubmitButton } from '../styles/formStyle';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormProps) {
   const [formData, setFormData] = useState(startingValue);
@@ -43,9 +44,9 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
   }
 
   return (
-    <form onSubmit={handleSubmit} data-testid="form" noValidate>
-      <label htmlFor="initialLoan">Valor Empréstimo</label>
-      <input
+    <FormWrapper onSubmit={handleSubmit} data-testid="form" noValidate>
+      <Label htmlFor="initialLoan">Valor Empréstimo</Label>
+      <Input
         id="initialLoan"
         name="initialLoan"
         type="text"
@@ -58,13 +59,13 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         aria-describedby={errors.initialLoan ? 'error-initialLoan' : undefined}
       />
       {errors.initialLoan && (
-        <span id="error-initialLoan" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-initialLoan" style={{ color: 'red' }} role="alert">
           {errors.initialLoan}
-        </span>
+        </ErrorMessage>
       )}
 
-      <label htmlFor="installmentsAmount">Parcelas</label>
-      <input
+      <Label htmlFor="installmentsAmount">Parcelas</Label>
+      <Input
         id="installmentsAmount"
         name="installmentsAmount"
         type="text"
@@ -76,13 +77,13 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         aria-describedby={errors.installmentsAmount ? 'error-installmentsAmount' : undefined}
       />
       {errors.installmentsAmount && (
-        <span id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
           {errors.installmentsAmount}
-        </span>
+        </ErrorMessage>
       )}
 
-      <label htmlFor="birthDate">Data de Nascimento</label>
-      <input
+      <Label htmlFor="birthDate">Data de Nascimento</Label>
+      <Input
         id="birthDate"
         name="birthDate"
         type="text"
@@ -95,15 +96,15 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         maxLength={10}
       />
       {errors.birthDate && (
-        <span id="error-birthDate" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-birthDate" style={{ color: 'red' }} role="alert">
           {errors.birthDate}
-        </span>
+        </ErrorMessage>
       )}
 
-      <button type="submit" disabled={loading}>
+      <SubmitButton type="submit" disabled={loading}>
         Enviar
-      </button>
-    </form>
+      </SubmitButton>
+    </FormWrapper>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LoanPlanCalculator } from '../services/calculatorService';
 import { InputLoanData, PaymentDetails } from '../types';
 import { NumericFormat } from 'react-number-format';
+import { Section, Title, DescriptionList, Term, Description } from '../styles/displayStyles';
 
 function CalculatorResultDisplay({
   data,
@@ -26,41 +27,44 @@ function CalculatorResultDisplay({
   }, [data]);
 
   return (
-    <dl aria-label="Detalhes do empréstimo" data-testid="result-display">
-      <h2>Plano De Pagamento</h2>
-      <div>
-        <dt>Valor Final:</dt>
-        <dd>
-          <NumericFormat
-            value={(loanDetails.finalLoan / 100).toFixed(2)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            displayType="text"
-          />
-        </dd>
-      </div>
-      <div>
-        <dt>Parcelas:</dt>
-        <dd>
-          <NumericFormat
-            value={(loanDetails.installmentValue / 100).toFixed(2)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            displayType="text"
-          />
-        </dd>
-      </div>
-      <div>
-        <dt>Juros ao Mês:</dt>
-        <dd>{loanDetails.monthlyInterestRate}</dd>
-      </div>
-      <div>
-        <dt>Juros ao Ano:</dt>
-        <dd>{loanDetails.anualInterestRate}</dd>
-      </div>
-    </dl>
+    <Section aria-label="Detalhes do empréstimo" data-testid="result-display">
+      <Title>Plano De Pagamento</Title>
+      <DescriptionList>
+        <div>
+          <Term>Valor Final:</Term>
+          <Description>
+            <NumericFormat
+              value={(loanDetails.finalLoan / 100).toFixed(2)}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix="R$ "
+              displayType="text"
+            />
+          </Description>
+        </div>
+        <div>
+          <Term>Parcelas:</Term>
+          <Description>
+            <NumericFormat
+              value={(loanDetails.installmentValue / 100).toFixed(2)}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix="R$ "
+              suffix="%"
+              displayType="text"
+            />
+          </Description>
+        </div>
+        <div>
+          <Term>Juros ao Mês:</Term>
+          <Description>{loanDetails.monthlyInterestRate} %</Description>
+        </div>
+        <div>
+          <Term>Juros ao Ano:</Term>
+          <Description>{loanDetails.anualInterestRate} %</Description>
+        </div>
+      </DescriptionList>
+    </Section>
   );
 }
 
