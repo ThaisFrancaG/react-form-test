@@ -1,3 +1,5 @@
+import { handleFormInput } from '../actions/handleSubmit';
+
 /**
  * Loan entry data
  * - `initialLoan` in cents (e.g., 100000 = R$1,000.00)
@@ -37,6 +39,10 @@ type PaymentDetails = {
   installmentValue: number;
 };
 
+type SetLoading = (isLoading: boolean) => void;
+type SetErrors = (errors: Record<string, string>) => void;
+type OnSubmit = (processedData: ReturnType<typeof handleFormInput>) => Promise<void> | void;
+
 /**
  * Props for the CalculatorForm component.
  * Used to capture and submit loan simulation data.
@@ -47,9 +53,17 @@ type FormProps = {
   /** Loading state for submit button or async simulation */
   loading: boolean;
   /** Handler function called on form submission */
-  onSubmit: (formData: InputLoanData) => void;
+  onSubmit: OnSubmit;
   /** Setter to update loading state from the parent component */
-  setLoading: (isLoading: boolean) => void;
+  setLoading: SetLoading;
 };
 
-export type { FormProps, InputLoanData, PaymentDetails, StartLoanData };
+export type {
+  FormProps,
+  InputLoanData,
+  PaymentDetails,
+  StartLoanData,
+  SetLoading,
+  SetErrors,
+  OnSubmit,
+};

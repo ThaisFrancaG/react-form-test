@@ -41,8 +41,8 @@ O projeto segue **abordagem modular por domínio**, inspirada em **Domain‑Driv
 5. **Documentação Automatizada**
    - Comentários JSDoc + Typedoc para gerar site estático de documentação de API/TIPOS em `docs/`.
 
-> Para comentários detalhados sobre decisões de design, veja nossa página no Notion:  
-> 🔗 https://www.notion.so/ThaisFrancaG/React-Form-Test-Architecture
+> Para mais comentários sobre decisões de design e requisitos de projeto, veja nossa página no Notion:  
+> 🔗[Notion Projeto Formulário De Empréstimo](https://sedate-flyingfish-3db.notion.site/Creditas-Engenharia-FrontEnd-234cee428d5c80bbbcf1def4bf9cd900)
 
 ## Funcionalidades Principais
 

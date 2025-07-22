@@ -1,50 +1,22 @@
 import React, { useState } from 'react';
 import { FormProps } from '../types/loanDataTypes';
-import { handleFormInput } from '../actions/handleSubmit';
 import { formatBRL } from '../../../shared/utils/numeric.utils';
-import { sleep } from '../../../shared/utils/sleep';
-import { calculatorFormSchema } from '../schemas/calculatorFormSchema';
-import { handleFieldChange } from '../handlers/formHandlers';
+import { handleFieldChange } from '../handlers/formInputHandlers';
 import { ErrorMessage, FormWrapper, Input, Label, SubmitButton } from '../styles/formStyle';
+import { handleSubmit } from '../handlers/formSubmitHandlers';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormProps) {
   const [formData, setFormData] = useState(startingValue);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    setLoading(true);
-
-    await sleep(1000);
-    const validationResult = calculatorFormSchema.safeParse(formData);
-
-    if (!validationResult.success) {
-      const fieldErrors: Record<string, string> = {};
-      validationResult.error.issues.forEach((err) => {
-        if (err.path[0]) {
-          fieldErrors[err.path[0] as string] = err.message;
-        }
-      });
-      setErrors(fieldErrors);
-      setLoading(false);
-      return;
-    }
-
-    const preparedData = {
-      ...formData,
-      initialLoan: Number(formData.initialLoan),
-      installmentsAmount: Number(formData.installmentsAmount),
-    };
-
-    const processedData = handleFormInput(preparedData);
-
-    await onSubmit(processedData);
-    setLoading(false);
-  }
-
   return (
-    <FormWrapper onSubmit={handleSubmit} data-testid="form" noValidate>
+    <FormWrapper
+      onSubmit={(e) => {
+        handleSubmit(e, formData, setErrors, setLoading, onSubmit);
+      }}
+      data-testid="form"
+      noValidate
+    >
       <Label htmlFor="initialLoan">Valor Empréstimo</Label>
       {errors.initialLoan && (
         <ErrorMessage id="error-initialLoan" style={{ color: 'red' }} role="alert">

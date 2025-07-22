@@ -50,7 +50,6 @@ function CalculatorResultDisplay({
               thousandSeparator="."
               decimalSeparator=","
               prefix="R$ "
-              suffix="%"
               displayType="text"
             />
           </Description>
