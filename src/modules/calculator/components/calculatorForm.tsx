@@ -46,6 +46,11 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
   return (
     <FormWrapper onSubmit={handleSubmit} data-testid="form" noValidate>
       <Label htmlFor="initialLoan">Valor Empréstimo</Label>
+      {errors.initialLoan && (
+        <ErrorMessage id="error-initialLoan" style={{ color: 'red' }} role="alert">
+          {errors.initialLoan}
+        </ErrorMessage>
+      )}
       <Input
         id="initialLoan"
         name="initialLoan"
@@ -58,13 +63,13 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         aria-invalid={!!errors.initialLoan}
         aria-describedby={errors.initialLoan ? 'error-initialLoan' : undefined}
       />
-      {errors.initialLoan && (
-        <ErrorMessage id="error-initialLoan" style={{ color: 'red' }} role="alert">
-          {errors.initialLoan}
-        </ErrorMessage>
-      )}
 
       <Label htmlFor="installmentsAmount">Parcelas</Label>
+      {errors.installmentsAmount && (
+        <ErrorMessage id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
+          {errors.installmentsAmount}
+        </ErrorMessage>
+      )}
       <Input
         id="installmentsAmount"
         name="installmentsAmount"
@@ -76,13 +81,13 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         aria-invalid={!!errors.installmentsAmount}
         aria-describedby={errors.installmentsAmount ? 'error-installmentsAmount' : undefined}
       />
-      {errors.installmentsAmount && (
-        <ErrorMessage id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
-          {errors.installmentsAmount}
-        </ErrorMessage>
-      )}
 
       <Label htmlFor="birthDate">Data de Nascimento</Label>
+      {errors.birthDate && (
+        <ErrorMessage id="error-birthDate" style={{ color: 'red' }} role="alert">
+          {errors.birthDate}
+        </ErrorMessage>
+      )}
       <Input
         id="birthDate"
         name="birthDate"
@@ -95,11 +100,6 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormPr
         aria-describedby={errors.birthDate ? 'error-birthDate' : undefined}
         maxLength={10}
       />
-      {errors.birthDate && (
-        <ErrorMessage id="error-birthDate" style={{ color: 'red' }} role="alert">
-          {errors.birthDate}
-        </ErrorMessage>
-      )}
 
       <SubmitButton type="submit" disabled={loading}>
         Enviar

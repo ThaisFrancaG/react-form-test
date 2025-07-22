@@ -17,7 +17,7 @@
     "test:coverage": "vitest run --coverage",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "docs": "typedoc --entryPoints src --out docs"
+    "docs": "typedoc --entryPoints src --entryPointStrategy expand --out docs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
