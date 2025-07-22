@@ -1,60 +1,22 @@
 import React, { useState } from 'react';
-import { Props } from '../types/loanDataTypes';
+import { FormProps } from '../types/loanDataTypes';
 import { handleFormInput } from '../actions/handleSubmit';
-import { calculatorFormSchema } from '../types';
 import { formatBRL } from '../../../shared/utils/numeric.utils';
+import { sleep } from '../../../shared/utils/sleep';
+import { calculatorFormSchema } from '../schemas/calculatorFormSchema';
+import { handleFieldChange } from '../handlers/formHandlers';
+import { ErrorMessage, FormWrapper, Input, Label, SubmitButton } from '../styles/formStyle';
 
-function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props) {
+function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: FormProps) {
   const [formData, setFormData] = useState(startingValue);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  function handleInitialLoanChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let onlyDigits = e.target.value.replace(/\D/g, '');
-
-    onlyDigits = onlyDigits.replace(/^0+/, '') || '0';
-
-    setFormData((prev) => ({
-      ...prev,
-      initialLoan: parseInt(onlyDigits, 10),
-    }));
-
-    setErrors((prev) => ({ ...prev, initialLoan: '' }));
-  }
-
-  function handleInstallmentsChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let onlyDigits = Number(e.target.value.replace(/\D/g, ''));
-
-    setFormData((prev) => ({
-      ...prev,
-      installmentsAmount: onlyDigits,
-    }));
-
-    setErrors((prev) => ({ ...prev, installmentsAmount: '' }));
-  }
-
-  function handleBirthDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let val = e.target.value;
-
-    val = val.replace(/[^0-9/]/g, '');
-
-    if (val.length === 2 && formData.birthDate.length < val.length) {
-      val += '/';
-    }
-    if (val.length === 5 && formData.birthDate.length < val.length) {
-      val += '/';
-    }
-    if (val.length > 10) {
-      val = val.slice(0, 10);
-    }
-
-    setFormData((prev) => ({ ...prev, birthDate: val }));
-    setErrors((prev) => ({ ...prev, birthDate: '' }));
-  }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     setLoading(true);
 
+    await sleep(1000);
     const validationResult = calculatorFormSchema.safeParse(formData);
 
     if (!validationResult.success) {
@@ -82,9 +44,9 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
   }
 
   return (
-    <form onSubmit={handleSubmit} data-testid="form" noValidate>
-      <label htmlFor="initialLoan">Valor Empréstimo</label>
-      <input
+    <FormWrapper onSubmit={handleSubmit} data-testid="form" noValidate>
+      <Label htmlFor="initialLoan">Valor Empréstimo</Label>
+      <Input
         id="initialLoan"
         name="initialLoan"
         type="text"
@@ -92,57 +54,57 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
         autoComplete="off"
         placeholder="R$ 0,00"
         value={formData.initialLoan === 0 ? '' : formatBRL(formData.initialLoan)}
-        onChange={handleInitialLoanChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.initialLoan}
         aria-describedby={errors.initialLoan ? 'error-initialLoan' : undefined}
       />
       {errors.initialLoan && (
-        <span id="error-initialLoan" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-initialLoan" style={{ color: 'red' }} role="alert">
           {errors.initialLoan}
-        </span>
+        </ErrorMessage>
       )}
 
-      <label htmlFor="installmentsAmount">Parcelas</label>
-      <input
+      <Label htmlFor="installmentsAmount">Parcelas</Label>
+      <Input
         id="installmentsAmount"
         name="installmentsAmount"
         type="text"
         inputMode="numeric"
         placeholder="Número de parcelas"
         value={formData.installmentsAmount || ''}
-        onChange={handleInstallmentsChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.installmentsAmount}
         aria-describedby={errors.installmentsAmount ? 'error-installmentsAmount' : undefined}
       />
       {errors.installmentsAmount && (
-        <span id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-installmentsAmount" style={{ color: 'red' }} role="alert">
           {errors.installmentsAmount}
-        </span>
+        </ErrorMessage>
       )}
 
-      <label htmlFor="birthDate">Data de Nascimento</label>
-      <input
+      <Label htmlFor="birthDate">Data de Nascimento</Label>
+      <Input
         id="birthDate"
         name="birthDate"
         type="text"
         inputMode="numeric"
         placeholder="dd/mm/aaaa"
         value={formData.birthDate}
-        onChange={handleBirthDateChange}
+        onChange={(e) => handleFieldChange(e, setFormData, setErrors)}
         aria-invalid={!!errors.birthDate}
         aria-describedby={errors.birthDate ? 'error-birthDate' : undefined}
         maxLength={10}
       />
       {errors.birthDate && (
-        <span id="error-birthDate" style={{ color: 'red' }} role="alert">
+        <ErrorMessage id="error-birthDate" style={{ color: 'red' }} role="alert">
           {errors.birthDate}
-        </span>
+        </ErrorMessage>
       )}
 
-      <button type="submit" disabled={loading}>
+      <SubmitButton type="submit" disabled={loading}>
         Enviar
-      </button>
-    </form>
+      </SubmitButton>
+    </FormWrapper>
   );
 }
 

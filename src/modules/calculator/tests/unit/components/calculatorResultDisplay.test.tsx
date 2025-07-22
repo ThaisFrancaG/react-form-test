@@ -1,23 +1,33 @@
-import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { CalculatorResultDisplay } from '../../../components';
-import React, { act } from 'react';
+import React from 'react';
 import {
   createCalculatorFormData,
   createPaymentPlanData,
 } from '../../../../../test-utils/factories/formFactorie';
 import { PaymentDetails } from '../../../types';
+import { describe, it, beforeEach, expect, vi } from 'vitest';
+import { LoadingProvider } from '../../../../../contexts/loading/loadingProvider';
+import { lightTheme } from '../../../../../contexts/theme/style';
+import { ThemeProvider } from 'styled-components';
 
 describe('CalculatorResultDisplay', () => {
   let mockInputData = createCalculatorFormData();
   let mockOutputData: PaymentDetails;
-  let mockOnCalculate: jest.Mock;
+  let mockOnCalculate: ReturnType<typeof vi.fn>;
+
+  const renderWithProviders = (ui: React.ReactElement) =>
+    render(
+      <LoadingProvider>
+        <ThemeProvider theme={lightTheme}>{ui}</ThemeProvider>
+      </LoadingProvider>,
+    );
 
   beforeEach(async () => {
     mockOutputData = await createPaymentPlanData(mockInputData);
-    mockOnCalculate = jest.fn();
+    mockOnCalculate = vi.fn();
 
-    render(
+    renderWithProviders(
       <CalculatorResultDisplay
         data={mockInputData}
         onCalculate={mockOnCalculate}
@@ -28,19 +38,21 @@ describe('CalculatorResultDisplay', () => {
 
   it('should update display when data is changed', async () => {
     expect(mockOnCalculate).toHaveBeenCalledTimes(1);
+
     const newInputData = createCalculatorFormData({
       initialLoan: mockInputData.initialLoan + 1000,
     });
     const newOutputData = await createPaymentPlanData(newInputData);
-    await act(async () =>
-      render(
+
+    await waitFor(() => {
+      renderWithProviders(
         <CalculatorResultDisplay
           data={newInputData}
           onCalculate={mockOnCalculate}
           outputData={newOutputData}
         />,
-      ),
-    );
+      );
+    });
 
     expect(mockOnCalculate).toHaveBeenCalledTimes(2);
   });
