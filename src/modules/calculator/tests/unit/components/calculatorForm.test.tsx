@@ -52,7 +52,7 @@ describe('CalculatorForm', () => {
 
     fireEvent.change(loanInput, { target: { value: 1000 } });
     fireEvent.click(submitButton);
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
+    await waitFor(() => expect(mockSetLoading).toHaveBeenCalledWith(true));
     await waitFor(() => expect(mockSetLoading).toHaveBeenCalledWith(false));
   });
 });

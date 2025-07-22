@@ -3,6 +3,7 @@ import { Props } from '../types/loanDataTypes';
 import { handleFormInput } from '../actions/handleSubmit';
 import { calculatorFormSchema } from '../types';
 import { formatBRL } from '../../../shared/utils/numeric.utils';
+import { sleep } from '../../../shared/utils/sleep';
 
 function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props) {
   const [formData, setFormData] = useState(startingValue);
@@ -53,8 +54,10 @@ function CalculatorForm({ startingValue, onSubmit, setLoading, loading }: Props)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     setLoading(true);
 
+    await sleep(1000);
     const validationResult = calculatorFormSchema.safeParse(formData);
 
     if (!validationResult.success) {
